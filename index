@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mon Avenir - Choix de spécialités</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #6C7DFF 0%, #2028B0 100%);
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 25px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      backdrop-filter: blur(15px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .container:hover {
+      transform: translateY(-5px);
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 20px;
+      padding: 35px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      color: #fff;
+      text-align: center;
+      font-size: 2.8em;
+      margin-bottom: 30px;
+      text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .selector {
+      margin: 25px 0;
+    }
+
+    select {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      background: rgba(255, 255, 255, 0.6);
+      color: #444;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    select:hover {
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .selected-specs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin: 25px 0;
+    }
+
+    .spec-tag {
+      background: linear-gradient(135deg, #6A9FFF 0%, #4057B0 100%);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 15px rgba(106, 159, 255, 0.3);
+      transition: transform 0.2s ease;
+    }
+
+    .spec-tag:hover {
+      transform: scale(1.05);
+    }
+
+    .remove-btn {
+      background: rgba(255, 255, 255, 0.3);
+      border: none;
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .remove-btn:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    .helper-text {
+      color: #666;
+      font-size: 0.9em;
+      margin-top: 8px;
+      text-align: center;
+      opacity: 0.8;
+    }
+
+    .result {
+      margin-top: 30px;
+      padding: 25px;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .result:hover {
+      transform: translateY(-3px);
+    }
+
+    .valid {
+      background: linear-gradient(135deg, #A4E5A8 0%, #70C0E4 100%);
+    }
+
+    .invalid {
+      background: linear-gradient(135deg, #FFB3B3 0%, #FFC6A4 100%);
+    }
+
+    .domaine {
+      background: rgba(255, 255, 255, 0.9);
+      margin: 15px 0;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease;
+    }
+
+    .domaine:hover {
+      transform: translateY(-5px);
+    }
+
+    .domaine h4 {
+      color: #6B73FF;
+      margin-top: 0;
+      font-size: 1.3em;
+      font-weight: 600;
+    }
+
+    .formation-type h5 {
+      color: #444;
+      font-size: 1.2em;
+      margin: 12px 0;
+      font-weight: 500;
+    }
+
+    .tip-box {
+      background: rgba(106, 159, 255, 0.1);
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: #666;
+      box-shadow: 0 3px 15px rgba(106, 159, 255, 0.1);
+    }
+
+  </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+  // [Le même code JavaScript/React que précédemment, avec quelques ajouts pour les émojis]
+  const validSeries = [
+    ['HLP', 'LLCE Anglais', 'HGGSP'],
+    ['HLP', 'LLCE Espagnol', 'HGGSP'],
+    ['HGGSP', 'SES', 'Mathématiques'],
+    ['SES', 'Mathématiques', 'LLCE Anglais'],
+    ['SES', 'Mathématiques', 'LLCE Espagnol'],
+    ['Mathématiques', 'Physique-Chimie', 'SVT']
+  ];
+
+  const specialites = [
+    'HLP',
+    'LLCE Anglais',
+    'LLCE Espagnol',
+    'HGGSP',
+    'SES',
+    'Mathématiques',
+    'Physique-Chimie',
+    'SVT'
+  ];
+
+  const filieres = {
+    'Littéraire': {
+      'Sciences Humaines': {
+        'CPGE': ['Littéraire (A/L)', 'Chartes'],
+        'Licence': ['Lettres', 'Philosophie', 'Histoire', 'Anthropologie', 'Psychologie', 'Sociologie'],
+      },
+      'Arts et Culture': {
+        'Licence': ['Histoire de l\'art', 'Cinéma', 'Théâtre', 'Musicologie'],
+        'BTS': ['Métiers de l\'audiovisuel', 'Design Graphique'],
+      },
+      'Communication': {
+        'BUT': ['Info-Com', 'MMI'],
+        'Licence': ['Information-Communication', 'Publicité', 'Sciences des Médias'],
+      }
+    },
+    'Sciences Sociales': {
+      'Économie': {
+        'CPGE': ['ECG', 'D1/D2'],
+        'Licence': ['Économie', 'Économie-Gestion', 'Économie et Finance'],
+      },
+      'Droit et Sciences Politiques': {
+        'Licence': ['Droit', 'Science Politique', 'AES (Administration Économique et Sociale)'],
+        'BUT': ['GEA', 'Carrières Juridiques'],
+      },
+      'Gestion et Commerce': {
+        'Licence': ['Commerce International', 'Management', 'Finance', 'Marketing'],
+        'Grandes Écoles': ['Écoles de commerce'],
+      }
+    },
+    'Sciences': {
+      'Ingénierie et Technologie': {
+        'CPGE': ['MPSI', 'PCSI', 'PTSI'],
+        'Licence': ['Sciences pour l’ingénieur', 'Électronique', 'Informatique'],
+        'Grandes Écoles': ['Écoles d\'ingénieurs', 'ENS'],
+      },
+      'Santé et Biologie': {
+        'Licence': ['Biologie', 'Biotechnologies', 'Biochimie'],
+        'BUT': ['Génie Biologique', 'Mesures Physiques'],
+        'Études de Santé': ['Médecine', 'Pharmacie', 'Odontologie'],
+      },
+      'Mathématiques et Physique': {
+        'Licence': ['Mathématiques', 'Physique', 'Chimie', 'Informatique'],
+        'CPGE': ['MPSI', 'PCSI'],
+      }
+    },
+    'Informatique et Numérique': {
+      'Informatique': {
+        'Licence': ['Informatique', 'Cybersécurité', 'Intelligence Artificielle'],
+        'BUT': ['Informatique', 'Réseaux et Télécommunications'],
+      },
+      'Data Science et Statistiques': {
+        'Licence': ['Mathématiques Appliquées et Statistiques', 'Data Science'],
+        'Grandes Écoles': ['Écoles d\'ingénieurs', 'ENSAE'],
+      }
+    },
+  };
+
+
+  function App() {
+    const [selectedSpecs, setSelectedSpecs] = React.useState([]);
+    const [isValid, setIsValid] = React.useState(null);
+    const [matchedSerie, setMatchedSerie] = React.useState(null);
+
+    const remainingSpecs = specialites.filter(spec => !selectedSpecs.includes(spec));
+
+    const checkValidCombination = (specs) => {
+      if (specs.length !== 3) return false;
+      return validSeries.some(serie => {
+        const matches = serie.every(spec => specs.includes(spec));
+        if (matches) {
+          setMatchedSerie(serie);
+          return true;
+        }
+        return false;
+      });
+    };
+
+    const handleSpecAdd = (spec) => {
+      if (spec === '') return;
+      const newSpecs = [...selectedSpecs, spec];
+      setSelectedSpecs(newSpecs);
+      if (newSpecs.length === 3) {
+        const valid = checkValidCombination(newSpecs);
+        setIsValid(valid);
+      } else {
+        setIsValid(null);
+      }
+    };
+
+    const handleSpecRemove = (index) => {
+      const newSpecs = selectedSpecs.filter((_, i) => i !== index);
+      setSelectedSpecs(newSpecs);
+      setIsValid(null);
+      setMatchedSerie(null);
+    };
+
+    const getSerieType = () => {
+      if (!matchedSerie) return null;
+      if (matchedSerie.includes('SVT')) return 'Sciences';
+      if (matchedSerie.includes('HLP')) return 'Littéraire';
+      return 'Sciences Sociales';
+    };
+
+    return (
+            <div className="container">
+              <h1>🎯 Trouve ta voie</h1>
+              <div className="card">
+                <div className="selected-specs">
+                  {selectedSpecs.map((spec, index) => (
+                          <div key={index} className="spec-tag">
+                            {spec}
+                            <button className="remove-btn" onClick={() => handleSpecRemove(index)}>×</button>
+                          </div>
+                  ))}
+                </div>
+
+                {selectedSpecs.length < 3 && (
+                        <div className="selector">
+                          <select
+                                  value=""
+                                  onChange={(e) => handleSpecAdd(e.target.value)}
+                          >
+                            <option value="">Choisis ta spécialité</option>
+                            {remainingSpecs.map(spec => (
+                                    <option key={spec} value={spec}>{spec}</option>
+                            ))}
+                          </select>
+                          <div className="helper-text">
+                            <span className="emoji">✨</span>
+                            Sélectionne ta {selectedSpecs.length + 1}ème spécialité
+                          </div>
+                        </div>
+                )}
+
+                {selectedSpecs.length === 3 && (
+                        <div className={`result ${isValid ? 'valid' : 'invalid'}`}>
+                          {isValid ? (
+                                  <>
+                                    <h3>🎉 Super choix !</h3>
+                                    <p>Ta combinaison ouvre vers des parcours passionnants :</p>
+                                    <div className="domaines">
+                                      {Object.entries(filieres[getSerieType()] || {}).map(([domaine, formations]) => (
+                                              <div key={domaine} className="domaine">
+                                                <h4>{domaine}</h4>
+                                                {Object.entries(formations).map(([type, options]) => (
+                                                        <div key={type} className="formation-type">
+                                                          <h5>{type}</h5>
+                                                          <ul>
+                                                            {options.map(option => (
+                                                                    <li key={option}>{option}</li>
+                                                            ))}
+                                                          </ul>
+                                                        </div>
+                                                ))}
+                                              </div>
+                                      ))}
+                                    </div>
+                                  </>
+                          ) : (
+                                  <>
+                                    <h3>💭 Réfléchissons ensemble</h3>
+                                    <p>Cette combinaison est un peu inhabituelle. Voici pourquoi :</p>
+                                    <div className="tip-box">
+                                      Pour maximiser tes chances post-bac, essaie de choisir des spécialités qui se complètent naturellement.
+                                    </div>
+                                  </>
+                          )}
+                        </div>
+                )}
+              </div>
+            </div>
+    );
+  }
+
+  ReactDOM.render(<App />, document.getElementById('root'));
+</script>
+</body>
