@@ -1,396 +1,775 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Mon Avenir - Choix de spécialités</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Outil d'orientation Parcoursup - Découvrez les filières correspondant à vos spécialités">
+    <title>Orientation Parcoursup</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-light: #818cf8;
+            --primary-dark: #3730a3;
+            --secondary-color: #0ea5e9;
+            --text-primary: #1f2937;
+            --text-secondary: #4b5563;
+            --text-light: #9ca3af;
+            --background: #f3f4f6;
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
+            --error-color: #ef4444;
+            --success-color: #22c55e;
+            --border-radius: 1rem;
+            --border-radius-sm: 0.5rem;
+            --transition: all 0.3s ease;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --container-width: 1200px;
+        }
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #6C7DFF 0%, #2028B0 100%);
-      color: #333;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .container {
-      max-width: 1000px;
-      margin: auto;
-      padding: 25px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 20px;
-      backdrop-filter: blur(15px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      transition: transform 0.3s ease;
-    }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
 
-    .container:hover {
-      transform: translateY(-5px);
-    }
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            display: grid;
+            gap: 2rem;
+        }
 
-    .card {
-      background: rgba(255, 255, 255, 0.85);
-      border-radius: 20px;
-      padding: 35px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-      transition: box-shadow 0.3s ease;
-    }
+        header {
+            text-align: center;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1rem;
+        }
 
-    .card:hover {
-      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
-    }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
 
-    h1 {
-      color: #fff;
-      text-align: center;
-      font-size: 2.8em;
-      margin-bottom: 30px;
-      text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
-    }
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
 
-    .selector {
-      margin: 25px 0;
-    }
+        .main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
 
-    select {
-      width: 100%;
-      padding: 15px;
-      border: none;
-      border-radius: 12px;
-      font-size: 16px;
-      background: rgba(255, 255, 255, 0.6);
-      color: #444;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
-      cursor: pointer;
-      font-family: 'Poppins', sans-serif;
-    }
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
 
-    select:hover {
-      background: rgba(255, 255, 255, 0.8);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-    }
+        .selection-panel {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
 
-    .selected-specs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin: 25px 0;
-    }
+        .speciality-icons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
 
-    .spec-tag {
-      background: linear-gradient(135deg, #6A9FFF 0%, #4057B0 100%);
-      color: white;
-      padding: 10px 20px;
-      border-radius: 30px;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 4px 15px rgba(106, 159, 255, 0.3);
-      transition: transform 0.2s ease;
-    }
+        .icon {
+            background: var(--background);
+            padding: 1.5rem;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
 
-    .spec-tag:hover {
-      transform: scale(1.05);
-    }
+        .icon:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
 
-    .remove-btn {
-      background: rgba(255, 255, 255, 0.3);
-      border: none;
-      color: white;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+        .icon.selected {
+            border-color: var(--primary-color);
+            background: var(--card-bg);
+        }
 
-    .remove-btn:hover {
-      background: rgba(255, 255, 255, 0.4);
-    }
+        .icon.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
 
-    .helper-text {
-      color: #666;
-      font-size: 0.9em;
-      margin-top: 8px;
-      text-align: center;
-      opacity: 0.8;
-    }
+        .icon img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+        }
 
-    .result {
-      margin-top: 30px;
-      padding: 25px;
-      border-radius: 15px;
-      background: rgba(255, 255, 255, 0.9);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-    }
+        .icon span {
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 0.95rem;
+            text-align: center;
+        }
 
-    .result:hover {
-      transform: translateY(-3px);
-    }
+        .selected-specialities {
+            background: var(--background);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin-top: 2rem;
+        }
 
-    .valid {
-      background: linear-gradient(135deg, #A4E5A8 0%, #70C0E4 100%);
-    }
+        .selected-specialities h2 {
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
 
-    .invalid {
-      background: linear-gradient(135deg, #FFB3B3 0%, #FFC6A4 100%);
-    }
+        #selected-icons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
 
-    .domaine {
-      background: rgba(255, 255, 255, 0.9);
-      margin: 15px 0;
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s ease;
-    }
+        .selected-speciality {
+            background: var(--card-bg);
+            border-radius: var(--border-radius-sm);
+            padding: 0.75rem 2.5rem 0.75rem 1rem;
+            position: relative;
+            color: var(--text-primary);
+            font-weight: 500;
+            box-shadow: var(--shadow-sm);
+        }
 
-    .domaine:hover {
-      transform: translateY(-5px);
-    }
+        .remove-icon {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--error-color);
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
 
-    .domaine h4 {
-      color: #6B73FF;
-      margin-top: 0;
-      font-size: 1.3em;
-      font-weight: 600;
-    }
+        .remove-icon:hover {
+            background: var(--background);
+        }
 
-    .formation-type h5 {
-      color: #444;
-      font-size: 1.2em;
-      margin: 12px 0;
-      font-weight: 500;
-    }
+        .validation-message {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: var(--border-radius-sm);
+            font-weight: 500;
+            text-align: center;
+        }
 
-    .tip-box {
-      background: rgba(106, 159, 255, 0.1);
-      padding: 15px;
-      border-radius: 12px;
-      margin-top: 20px;
-      font-size: 0.9em;
-      color: #666;
-      box-shadow: 0 3px 15px rgba(106, 159, 255, 0.1);
-    }
+        .validation-message.success {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--success-color);
+        }
 
-  </style>
+        .validation-message.error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error-color);
+        }
+
+        .recommendations {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 0;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            box-shadow: var(--shadow);
+        }
+
+        .recommendations:empty {
+            padding: 0;
+        }
+
+        .filiere {
+            border-bottom: 1px solid var(--border-color);
+            padding: 2rem;
+        }
+
+        .filiere:last-child {
+            border-bottom: none;
+        }
+
+        .filiere h3 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .filiere-category {
+            background: var(--background);
+            padding: 1.5rem;
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 1.5rem;
+        }
+
+        .filiere-category:last-child {
+            margin-bottom: 0;
+        }
+
+        .filiere-category h4 {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .filiere-category ul {
+            list-style: none;
+            margin: 0;
+            padding-left: 1.25rem;
+        }
+
+        .filiere-category li {
+            position: relative;
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+        }
+
+        .filiere-category li::before {
+            content: "•";
+            color: var(--primary-light);
+            position: absolute;
+            left: -1.25rem;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .speciality-icons {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            }
+
+            .icon {
+                padding: 1rem;
+            }
+
+            .filiere {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Scrollbar styling */
+        .recommendations::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .recommendations::-webkit-scrollbar-track {
+            background: var(--background);
+        }
+
+        .recommendations::-webkit-scrollbar-thumb {
+            background-color: var(--primary-light);
+            border-radius: 20px;
+        }
+    </style>
 </head>
 <body>
-<div id="root"></div>
-
-<script type="text/babel">
-  // [Le même code JavaScript/React que précédemment, avec quelques ajouts pour les émojis]
-  const validSeries = [
-    ['HLP', 'LLCE Anglais', 'HGGSP'],
-    ['HLP', 'LLCE Espagnol', 'HGGSP'],
-    ['HGGSP', 'SES', 'Mathématiques'],
-    ['SES', 'Mathématiques', 'LLCE Anglais'],
-    ['SES', 'Mathématiques', 'LLCE Espagnol'],
-    ['Mathématiques', 'Physique-Chimie', 'SVT']
-  ];
-
-  const specialites = [
-    'HLP',
-    'LLCE Anglais',
-    'LLCE Espagnol',
-    'HGGSP',
-    'SES',
-    'Mathématiques',
-    'Physique-Chimie',
-    'SVT'
-  ];
-
-  const filieres = {
-    'Littéraire': {
-      'Sciences Humaines': {
-        'CPGE': ['Littéraire (A/L)', 'Chartes'],
-        'Licence': ['Lettres', 'Philosophie', 'Histoire', 'Anthropologie', 'Psychologie', 'Sociologie'],
-      },
-      'Arts et Culture': {
-        'Licence': ['Histoire de l\'art', 'Cinéma', 'Théâtre', 'Musicologie'],
-        'BTS': ['Métiers de l\'audiovisuel', 'Design Graphique'],
-      },
-      'Communication': {
-        'BUT': ['Info-Com', 'MMI'],
-        'Licence': ['Information-Communication', 'Publicité', 'Sciences des Médias'],
-      }
-    },
-    'Sciences Sociales': {
-      'Économie': {
-        'CPGE': ['ECG', 'D1/D2'],
-        'Licence': ['Économie', 'Économie-Gestion', 'Économie et Finance'],
-      },
-      'Droit et Sciences Politiques': {
-        'Licence': ['Droit', 'Science Politique', 'AES (Administration Économique et Sociale)'],
-        'BUT': ['GEA', 'Carrières Juridiques'],
-      },
-      'Gestion et Commerce': {
-        'Licence': ['Commerce International', 'Management', 'Finance', 'Marketing'],
-        'Grandes Écoles': ['Écoles de commerce'],
-      }
-    },
-    'Sciences': {
-      'Ingénierie et Technologie': {
-        'CPGE': ['MPSI', 'PCSI', 'PTSI'],
-        'Licence': ['Sciences pour l’ingénieur', 'Électronique', 'Informatique'],
-        'Grandes Écoles': ['Écoles d\'ingénieurs', 'ENS'],
-      },
-      'Santé et Biologie': {
-        'Licence': ['Biologie', 'Biotechnologies', 'Biochimie'],
-        'BUT': ['Génie Biologique', 'Mesures Physiques'],
-        'Études de Santé': ['Médecine', 'Pharmacie', 'Odontologie'],
-      },
-      'Mathématiques et Physique': {
-        'Licence': ['Mathématiques', 'Physique', 'Chimie', 'Informatique'],
-        'CPGE': ['MPSI', 'PCSI'],
-      }
-    },
-    'Informatique et Numérique': {
-      'Informatique': {
-        'Licence': ['Informatique', 'Cybersécurité', 'Intelligence Artificielle'],
-        'BUT': ['Informatique', 'Réseaux et Télécommunications'],
-      },
-      'Data Science et Statistiques': {
-        'Licence': ['Mathématiques Appliquées et Statistiques', 'Data Science'],
-        'Grandes Écoles': ['Écoles d\'ingénieurs', 'ENSAE'],
-      }
-    },
-  };
-
-
-  function App() {
-    const [selectedSpecs, setSelectedSpecs] = React.useState([]);
-    const [isValid, setIsValid] = React.useState(null);
-    const [matchedSerie, setMatchedSerie] = React.useState(null);
-
-    const remainingSpecs = specialites.filter(spec => !selectedSpecs.includes(spec));
-
-    const checkValidCombination = (specs) => {
-      if (specs.length !== 3) return false;
-      return validSeries.some(serie => {
-        const matches = serie.every(spec => specs.includes(spec));
-        if (matches) {
-          setMatchedSerie(serie);
-          return true;
-        }
-        return false;
-      });
-    };
-
-    const handleSpecAdd = (spec) => {
-      if (spec === '') return;
-      const newSpecs = [...selectedSpecs, spec];
-      setSelectedSpecs(newSpecs);
-      if (newSpecs.length === 3) {
-        const valid = checkValidCombination(newSpecs);
-        setIsValid(valid);
-      } else {
-        setIsValid(null);
-      }
-    };
-
-    const handleSpecRemove = (index) => {
-      const newSpecs = selectedSpecs.filter((_, i) => i !== index);
-      setSelectedSpecs(newSpecs);
-      setIsValid(null);
-      setMatchedSerie(null);
-    };
-
-    const getSerieType = () => {
-      if (!matchedSerie) return null;
-      if (matchedSerie.includes('SVT')) return 'Sciences';
-      if (matchedSerie.includes('HLP')) return 'Littéraire';
-      return 'Sciences Sociales';
-    };
-
-    return (
-            <div className="container">
-              <h1>🎯 Trouve ta voie</h1>
-              <div className="card">
-                <div className="selected-specs">
-                  {selectedSpecs.map((spec, index) => (
-                          <div key={index} className="spec-tag">
-                            {spec}
-                            <button className="remove-btn" onClick={() => handleSpecRemove(index)}>×</button>
-                          </div>
-                  ))}
-                </div>
-
-                {selectedSpecs.length < 3 && (
-                        <div className="selector">
-                          <select
-                                  value=""
-                                  onChange={(e) => handleSpecAdd(e.target.value)}
-                          >
-                            <option value="">Choisis ta spécialité</option>
-                            {remainingSpecs.map(spec => (
-                                    <option key={spec} value={spec}>{spec}</option>
-                            ))}
-                          </select>
-                          <div className="helper-text">
-                            <span className="emoji">✨</span>
-                            Sélectionne ta {selectedSpecs.length + 1}ème spécialité
-                          </div>
-                        </div>
-                )}
-
-                {selectedSpecs.length === 3 && (
-                        <div className={`result ${isValid ? 'valid' : 'invalid'}`}>
-                          {isValid ? (
-                                  <>
-                                    <h3>🎉 Super choix !</h3>
-                                    <p>Ta combinaison ouvre vers des parcours passionnants :</p>
-                                    <div className="domaines">
-                                      {Object.entries(filieres[getSerieType()] || {}).map(([domaine, formations]) => (
-                                              <div key={domaine} className="domaine">
-                                                <h4>{domaine}</h4>
-                                                {Object.entries(formations).map(([type, options]) => (
-                                                        <div key={type} className="formation-type">
-                                                          <h5>{type}</h5>
-                                                          <ul>
-                                                            {options.map(option => (
-                                                                    <li key={option}>{option}</li>
-                                                            ))}
-                                                          </ul>
-                                                        </div>
-                                                ))}
-                                              </div>
-                                      ))}
-                                    </div>
-                                  </>
-                          ) : (
-                                  <>
-                                    <h3>💭 Réfléchissons ensemble</h3>
-                                    <p>Cette combinaison est un peu inhabituelle. Voici pourquoi :</p>
-                                    <div className="tip-box">
-                                      Pour maximiser tes chances post-bac, essaie de choisir des spécialités qui se complètent naturellement.
-                                    </div>
-                                  </>
-                          )}
-                        </div>
-                )}
-              </div>
+<div class="container">
+    <header>
+        <h1>Orientation Parcoursup</h1>
+        <p>Choisissez vos 3 spécialités pour découvrir les filières correspondantes</p>
+    </header>
+    <main>
+        <div class="speciality-icons">
+            <div class="icon" data-speciality="HLP">
+                <img src="icons/hlp.png" alt="Humanités, Littérature et Philosophie" loading="lazy">
+                <span>HLP</span>
             </div>
-    );
-  }
+            <div class="icon" data-speciality="LLCE Anglais">
+                <img src="icons/anglais.png" alt="LLCE Anglais" loading="lazy">
+                <span>LLCE Anglais</span>
+            </div>
+            <div class="icon" data-speciality="LLCE Espagnol">
+                <img src="icons/espagnol.png" alt="LLCE Espagnol" loading="lazy">
+                <span>LLCE Espagnol</span>
+            </div>
+            <div class="icon" data-speciality="HGGSP">
+                <img src="icons/hggsp.png" alt="Histoire-Géographie, Géopolitique et Sciences Politiques" loading="lazy">
+                <span>HGGSP</span>
+            </div>
+            <div class="icon" data-speciality="SES">
+                <img src="icons/ses.png" alt="Sciences Économiques et Sociales" loading="lazy">
+                <span>SES</span>
+            </div>
+            <div class="icon" data-speciality="Mathématiques">
+                <img src="icons/maths.png" alt="Mathématiques" loading="lazy">
+                <span>Mathématiques</span>
+            </div>
+            <div class="icon" data-speciality="Physique-Chimie">
+                <img src="icons/physique.png" alt="Physique-Chimie" loading="lazy">
+                <span>Physique-Chimie</span>
+            </div>
+            <div class="icon" data-speciality="SVT">
+                <img src="icons/svt.png" alt="Sciences de la Vie et de la Terre" loading="lazy">
+                <span>SVT</span>
+            </div>
+        </div>
+        <div class="selected-specialities">
+            <h2>Vos spécialités sélectionnées</h2>
+            <div id="selected-icons"></div>
+            <div id="validation-message"></div>
+        </div>
+        <div id="recommendations" class="recommendations"></div>
+    </main>
+</div>
+<script>
+    // Configuration des domaines et filières
+    const CONFIG = {
+        validSeries: [
+            ['HLP', 'LLCE Anglais', 'HGGSP'],
+            ['HLP', 'LLCE Espagnol', 'HGGSP'],
+            ['HLP', 'SES', 'HGGSP'],
+            ['LLCE Anglais', 'LLCE Espagnol', 'HLP'],
+            ['HGGSP', 'SES', 'Mathématiques'],
+            ['SES', 'Mathématiques', 'LLCE Anglais'],
+            ['SES', 'Mathématiques', 'LLCE Espagnol'],
+            ['Mathématiques', 'Physique-Chimie', 'SVT'],
+            ['Mathématiques', 'Physique-Chimie', 'SES'],
+            ['Mathématiques', 'SVT', 'SES']
+        ],
+        domaineMappings: {
+            'Mathématiques': ['Sciences', 'Informatique et Numérique', 'Mathématiques et Physique'],
+            'Physique-Chimie': ['Sciences', 'Santé et Biologie', 'Mathématiques et Physique'],
+            'SVT': ['Sciences', 'Santé et Biologie'],
+            'SES': ['Sciences Sociales', 'Économie', 'Gestion et Commerce', 'Droit et Sciences Politiques'],
+            'HLP': ['Littéraire', 'Sciences Humaines', 'Arts et Culture', 'Communication'],
+            'LLCE Anglais': ['Littéraire', 'Communication', 'Arts et Culture', 'Gestion et Commerce'],
+            'LLCE Espagnol': ['Littéraire', 'Communication', 'Arts et Culture', 'Gestion et Commerce'],
+            'HGGSP': ['Sciences Sociales', 'Littéraire', 'Droit et Sciences Politiques', 'Sciences Humaines']
+        },
+        maxSpecialities: 3
+    };
 
-  ReactDOM.render(<App />, document.getElementById('root'));
+    // État de l'application
+    const state = {
+        selectedSpecialities: new Set()
+    };
+
+    // Gestionnaire d'interface utilisateur
+    const UI = {
+        elements: {
+            icons: document.querySelectorAll('.icon'),
+            selectedIcons: document.getElementById('selected-icons'),
+            recommendations: document.getElementById('recommendations'),
+            validationMessage: document.getElementById('validation-message')
+        },
+
+        init() {
+            this.bindEvents();
+        },
+
+        bindEvents() {
+            this.elements.icons.forEach(icon => {
+                icon.addEventListener('click', () => {
+                    const speciality = icon.dataset.speciality;
+                    if (!icon.classList.contains('disabled')) {
+                        this.toggleSpeciality(icon, speciality);
+                    }
+                });
+            });
+        },
+
+        isValidCombination(specialities) {
+            return CONFIG.validSeries.some(series =>
+                specialities.length === series.length &&
+                specialities.every(spec => series.includes(spec))
+            );
+        },
+
+        updateValidationMessage() {
+            const selectedArray = Array.from(state.selectedSpecialities);
+            if (selectedArray.length === CONFIG.maxSpecialities) {
+                const isValid = this.isValidCombination(selectedArray);
+                this.elements.validationMessage.className = `validation-message ${isValid ? 'success' : 'error'}`;
+                this.elements.validationMessage.textContent = isValid
+                    ? 'Combinaison valide ! Voici les filières recommandées.'
+                    : 'Cette combinaison n\'est pas recommandée pour Parcoursup.';
+            } else {
+                this.elements.validationMessage.className = '';
+                this.elements.validationMessage.textContent = '';
+            }
+        },
+
+        updateAvailableSpecialities() {
+            const selectedArray = Array.from(state.selectedSpecialities);
+
+            if (selectedArray.length < CONFIG.maxSpecialities) {
+                this.elements.icons.forEach(icon => {
+                    const speciality = icon.dataset.speciality;
+                    if (!state.selectedSpecialities.has(speciality)) {
+                        const possibleCombinations = CONFIG.validSeries.filter(series =>
+                            selectedArray.every(selected => series.includes(selected)) &&
+                            series.includes(speciality)
+                        );
+
+                        if (possibleCombinations.length === 0 && selectedArray.length > 0) {
+                            icon.classList.add('disabled');
+                        } else {
+                            icon.classList.remove('disabled');
+                        }
+                    }
+                });
+            }
+        },
+
+        toggleSpeciality(icon, speciality) {
+            if (state.selectedSpecialities.has(speciality)) {
+                state.selectedSpecialities.delete(speciality);
+                icon.classList.remove('selected');
+            } else if (state.selectedSpecialities.size < CONFIG.maxSpecialities) {
+                state.selectedSpecialities.add(speciality);
+                icon.classList.add('selected');
+            }
+
+            this.updateUI();
+        },
+
+        removeSpeciality(speciality) {
+            const icon = document.querySelector(`.icon[data-speciality="${speciality}"]`);
+            if (icon) {
+                this.toggleSpeciality(icon, speciality);
+            }
+        },
+
+        updateUI() {
+            this.updateSelectedIcons();
+            this.updateValidationMessage();
+            this.updateAvailableSpecialities();
+            this.updateRecommendations();
+        },
+
+        updateSelectedIcons() {
+            this.elements.selectedIcons.innerHTML = Array.from(state.selectedSpecialities)
+                .map(spec => `
+                    <div class="selected-speciality">
+                        ${spec}
+                        <div class="remove-icon"
+                             onclick="UI.removeSpeciality('${spec}')"
+                             role="button"
+                             aria-label="Supprimer ${spec}">✖</div>
+                    </div>
+                `).join('');
+        },
+
+        updateRecommendations() {
+            const selectedArray = Array.from(state.selectedSpecialities);
+            if (selectedArray.length === CONFIG.maxSpecialities && this.isValidCombination(selectedArray)) {
+                const recommendations = this.findMatchingFilières(selectedArray);
+                this.renderRecommendations(recommendations);
+            } else {
+                this.elements.recommendations.innerHTML = '';
+            }
+        },
+
+        findMatchingFilières(selectedArray) {
+            const domaines = selectedArray.flatMap(spec => CONFIG.domaineMappings[spec] || []);
+            const uniqueDomaines = [...new Set(domaines)];
+            const recommendations = {};
+
+            uniqueDomaines.forEach(domaine => {
+                if (filieres[domaine]) {
+                    recommendations[domaine] = filieres[domaine];
+                }
+            });
+
+            return recommendations;
+        },
+
+        renderRecommendations(recommendations) {
+            this.elements.recommendations.innerHTML = Object.entries(recommendations)
+                .map(([domaine, categories]) => `
+                        <div class="filiere">
+                            <h3>${domaine}</h3>
+                            ${Object.entries(categories)
+                    .map(([type, options]) => `
+                                    <div class="filiere-category">
+                                        <h4>${type}</h4>
+                                        <ul>
+                                            ${Object.entries(options)
+                        .map(([formation, cursus]) => `
+                                                    <div class="formation">
+                                                        <h5>${formation}</h5>
+                                                        <ul>
+                                                            ${cursus.map(option => `
+                                                                <li>${option}</li>
+                                                            `).join('')}
+                                                        </ul>
+                                                    </div>
+                                                `).join('')}
+                                        </ul>
+                                    </div>
+                                `).join('')}
+                        </div>
+                    `).join('');
+        }
+    };
+
+    // Initialisation de l'application
+    document.addEventListener('DOMContentLoaded', () => UI.init());
+
+    // Structure des filières
+    const filieres = {
+        'Littéraire': {
+            'Sciences Humaines': {
+                'CPGE': ['Littéraire (A/L)', 'Chartes', 'B/L (Lettres et Sciences Sociales)'],
+                'Licence': [
+                    'Lettres',
+                    'Philosophie',
+                    'Histoire',
+                    'Anthropologie',
+                    'Psychologie',
+                    'Sociologie',
+                    'Sciences du Langage',
+                    'Langues Étrangères Appliquées (LEA)'
+                ],
+                'Écoles': ['Sciences Po', 'IEP', 'Écoles de traduction']
+            },
+            'Arts et Culture': {
+                'Licence': [
+                    'Histoire de l\'art',
+                    'Cinéma',
+                    'Théâtre',
+                    'Musicologie',
+                    'Arts Plastiques',
+                    'Design',
+                    'Architecture'
+                ],
+                'BTS': [
+                    'Métiers de l\'audiovisuel',
+                    'Design Graphique',
+                    'Photographie',
+                    'Communication Visuelle'
+                ],
+                'Écoles': [
+                    'Écoles d\'Art',
+                    'Écoles de Design',
+                    'Écoles d\'Architecture'
+                ]
+            },
+            'Communication': {
+                'BUT': [
+                    'Info-Com',
+                    'MMI',
+                    'Techniques de Commercialisation'
+                ],
+                'Licence': [
+                    'Information-Communication',
+                    'Publicité',
+                    'Sciences des Médias',
+                    'Journalisme',
+                    'Communication Digitale'
+                ],
+                'Écoles': [
+                    'Écoles de Journalisme',
+                    'Écoles de Communication'
+                ]
+            }
+        },
+        'Sciences Sociales': {
+            'Économie': {
+                'CPGE': ['ECG', 'D1/D2', 'ENS D2'],
+                'Licence': [
+                    'Économie',
+                    'Économie-Gestion',
+                    'Économie et Finance',
+                    'Commerce International',
+                    'Mathématiques Appliquées aux Sciences Sociales'
+                ],
+                'Écoles': [
+                    'IAE',
+                    'ENS Paris-Saclay',
+                    'ENSAE'
+                ]
+            },
+            'Droit et Sciences Politiques': {
+                'Licence': [
+                    'Droit',
+                    'Science Politique',
+                    'AES',
+                    'Relations Internationales',
+                    'Droit-Économie',
+                    'Droit-Langues'
+                ],
+                'BUT': [
+                    'GEA',
+                    'Carrières Juridiques',
+                    'Gestion Administrative et Commerciale'
+                ],
+                'Écoles': [
+                    'Sciences Po',
+                    'IEP',
+                    'École du Barreau'
+                ]
+            },
+            'Gestion et Commerce': {
+                'Licence': [
+                    'Commerce International',
+                    'Management',
+                    'Finance',
+                    'Marketing',
+                    'Gestion des Entreprises',
+                    'Comptabilité'
+                ],
+                'BUT': [
+                    'Techniques de Commercialisation',
+                    'GACO',
+                    'GEA'
+                ],
+                'Grandes Écoles': [
+                    'HEC',
+                    'ESSEC',
+                    'ESCP',
+                    'EM Lyon',
+                    'EDHEC'
+                ]
+            }
+        },
+        'Sciences': {
+            'Ingénierie et Technologie': {
+                'CPGE': ['MPSI', 'PCSI', 'PTSI', 'TSI'],
+                'Licence': [
+                    'Sciences pour l\'ingénieur',
+                    'Électronique',
+                    'Informatique',
+                    'Mécanique',
+                    'Génie Civil'
+                ],
+                'Grandes Écoles': [
+                    'Polytechnique',
+                    'Centrale',
+                    'Mines',
+                    'INSA',
+                    'UTC'
+                ]
+            },
+            'Santé et Biologie': {
+                'Licence': [
+                    'Biologie',
+                    'Biotechnologies',
+                    'Biochimie',
+                    'Sciences de la Vie',
+                    'Neurosciences'
+                ],
+                'BUT': [
+                    'Génie Biologique',
+                    'Mesures Physiques',
+                    'Génie des Procédés'
+                ],
+                'Études de Santé': [
+                    'Médecine',
+                    'Pharmacie',
+                    'Odontologie',
+                    'Maïeutique',
+                    'Kinésithérapie',
+                    'Ergothérapie'
+                ]
+            },
+            'Mathématiques et Physique': {
+                'Licence': [
+                    'Mathématiques',
+                    'Physique',
+                    'Chimie',
+                    'Informatique',
+                    'Mathématiques-Informatique',
+                    'Physique-Chimie'
+                ],
+                'CPGE': ['MP2I', 'MPI', 'MPSI', 'PCSI'],
+                'Écoles': [
+                    'ENS',
+                    'École Polytechnique',
+                    'Mines ParisTech'
+                ]
+            }
+        },
+        'Informatique et Numérique': {
+            'Informatique': {
+                'Licence': [
+                    'Informatique',
+                    'Cybersécurité',
+                    'Intelligence Artificielle',
+                    'Développement Web',
+                    'Systèmes d\'Information'
+                ],
+                'BUT': [
+                    'Informatique',
+                    'Réseaux et Télécommunications',
+                    'Métiers du Multimédia et de l\'Internet'
+                ],
+                'Écoles': [
+                    'EPITA',
+                    'EPITECH',
+                    'SUPINFO',
+                    'École 42'
+                ]
+            },
+            'Data Science et Statistiques': {
+                'Licence': [
+                    'Mathématiques Appliquées et Statistiques',
+                    'Data Science',
+                    'Bio-informatique',
+                    'Économétrie'
+                ],
+                'Grandes Écoles': [
+                    'ENSAE',
+                    'ENSAI',
+                    'Télécom Paris',
+                    'CentraleSupélec'
+                ],
+                'Masters': [
+                    'Data Science',
+                    'Intelligence Artificielle',
+                    'Big Data'
+                ]
+            }
+        }
+    };
 </script>
 </body>
+</html>
