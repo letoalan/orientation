@@ -3,32 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Outil d'orientation Parcoursup - Découvrez les filières correspondant à vos spécialités">
-    <title>Orientation Parcoursup</title>
+    <meta name="description" content="Découvre ton futur parcours d'études - Outil d'orientation Parcoursup">
+    <title>🚀 Mon Avenir - Parcoursup</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #4f46e5;
-            --primary-light: #818cf8;
-            --primary-dark: #3730a3;
-            --secondary-color: #0ea5e9;
-            --text-primary: #1f2937;
-            --text-secondary: #4b5563;
-            --text-light: #9ca3af;
-            --background: #f3f4f6;
-            --card-bg: #ffffff;
-            --border-color: #e5e7eb;
-            --error-color: #ef4444;
-            --success-color: #22c55e;
-            --border-radius: 1rem;
-            --border-radius-sm: 0.5rem;
-            --transition: all 0.3s ease;
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            --container-width: 1200px;
+            --primary: #6366f1;
+            --primary-gradient: linear-gradient(135deg, #6366f1, #8b5cf6);
+            --secondary: #22d3ee;
+            --accent: #f43f5e;
+            --background: #f8fafc;
+            --card: #ffffff;
+            --text: #0f172a;
+            --text-light: #64748b;
+            --success: #10b981;
+            --error: #ef4444;
+            --radius-lg: 1.5rem;
+            --radius: 1rem;
+            --radius-sm: 0.5rem;
         }
 
         * {
@@ -38,239 +32,316 @@
         }
 
         body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-family: 'Outfit', system-ui, sans-serif;
             background: var(--background);
-            color: var(--text-primary);
+            color: var(--text);
             line-height: 1.6;
-            min-height: 100vh;
-            padding: 2rem 1rem;
+            overflow-x: hidden;
         }
 
         .container {
-            max-width: var(--container-width);
+            max-width: 1200px;
             margin: 0 auto;
-            display: grid;
-            gap: 2rem;
+            padding: 2rem;
         }
 
         header {
             text-align: center;
-            padding: 2rem;
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            margin-bottom: 1rem;
+            padding: 3rem 2rem;
+            background: var(--primary-gradient);
+            color: white;
+            border-radius: var(--radius-lg);
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1600&q=80') center/cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        header > * {
+            position: relative;
+            z-index: 1;
         }
 
         h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff, #e0e7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         header p {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
+            font-size: 1.25rem;
+            color: #e0e7ff;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        .main-grid {
+        .speciality-grid {
             display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
         }
 
-        @media (max-width: 1024px) {
-            .main-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .selection-panel {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
+        .speciality-card {
+            background: var(--card);
+            border-radius: var(--radius);
             padding: 2rem;
-            box-shadow: var(--shadow);
-        }
-
-        .speciality-icons {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .icon {
-            background: var(--background);
-            padding: 1.5rem;
-            border-radius: var(--border-radius-sm);
+            text-align: center;
             cursor: pointer;
-            transition: var(--transition);
-            border: 2px solid transparent;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
         }
 
-        .icon:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
+        .speciality-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
         }
 
-        .icon.selected {
-            border-color: var(--primary-color);
-            background: var(--card-bg);
+        .speciality-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(99, 102, 241, 0.2);
         }
 
-        .icon.disabled {
+        .speciality-card.selected {
+            border-color: var(--primary);
+            background: #f5f3ff;
+        }
+
+        .speciality-card.disabled {
             opacity: 0.5;
             cursor: not-allowed;
             transform: none;
         }
 
-        .icon img {
-            width: 48px;
-            height: 48px;
-            object-fit: contain;
+        .speciality-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1rem;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
         }
 
-        .icon span {
-            color: var(--text-primary);
-            font-weight: 500;
-            font-size: 0.95rem;
-            text-align: center;
-        }
-
-        .selected-specialities {
-            background: var(--background);
-            padding: 1.5rem;
-            border-radius: var(--border-radius);
-            margin-top: 2rem;
-        }
-
-        .selected-specialities h2 {
-            color: var(--text-primary);
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
+        .speciality-name {
             font-weight: 600;
+            font-size: 1.25rem;
+            color: var(--text);
+            margin-bottom: 0.5rem;
         }
 
-        #selected-icons {
+        .speciality-desc {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .selected-panel {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .selected-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .selected-title::before {
+            content: '🎯';
+        }
+
+        .selected-items {
             display: flex;
             flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .selected-tag {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        .remove-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            transition: background 0.3s ease;
+        }
+
+        .remove-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .results {
+            background: white;
+            border-radius: var(--radius);
+            padding: 0;
+            margin-top: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .domain-section {
+            border-bottom: 1px solid #e2e8f0;
+            padding: 2rem;
+        }
+
+        .domain-section:last-child {
+            border-bottom: none;
+        }
+
+        .domain-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
             gap: 0.75rem;
         }
 
-        .selected-speciality {
-            background: var(--card-bg);
-            border-radius: var(--border-radius-sm);
-            padding: 0.75rem 2.5rem 0.75rem 1rem;
-            position: relative;
-            color: var(--text-primary);
-            font-weight: 500;
-            box-shadow: var(--shadow-sm);
+        .category {
+            background: #f8fafc;
+            border-radius: var(--radius-sm);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
         }
 
-        .remove-icon {
-            position: absolute;
-            right: 0.75rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--error-color);
-            cursor: pointer;
-            padding: 0.25rem;
-            border-radius: 50%;
-            transition: var(--transition);
+        .category:last-child {
+            margin-bottom: 0;
         }
 
-        .remove-icon:hover {
-            background: var(--background);
+        .category-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+
+        .formation-group {
+            margin-bottom: 1rem;
+        }
+
+        .formation-type {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .formation-list {
+            list-style: none;
+        }
+
+        .formation-item {
+            padding: 0.5rem 0;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .formation-item::before {
+            content: '→';
+            color: var(--primary);
+            font-weight: bold;
+        }
+        .formation-item a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .formation-item a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
         }
 
         .validation-message {
             margin-top: 1rem;
             padding: 1rem;
-            border-radius: var(--border-radius-sm);
+            border-radius: var(--radius-sm);
             font-weight: 500;
             text-align: center;
+            animation: slideIn 0.3s ease;
         }
 
         .validation-message.success {
-            background: rgba(34, 197, 94, 0.1);
-            color: var(--success-color);
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
         }
 
         .validation-message.error {
             background: rgba(239, 68, 68, 0.1);
-            color: var(--error-color);
+            color: var(--error);
         }
 
-        .recommendations {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 0;
-            max-height: calc(100vh - 200px);
-            overflow-y: auto;
-            box-shadow: var(--shadow);
+        .emoji-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
         }
 
-        .recommendations:empty {
-            padding: 0;
-        }
-
-        .filiere {
-            border-bottom: 1px solid var(--border-color);
-            padding: 2rem;
-        }
-
-        .filiere:last-child {
-            border-bottom: none;
-        }
-
-        .filiere h3 {
-            color: var(--primary-color);
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            font-weight: 600;
-        }
-
-        .filiere-category {
-            background: var(--background);
-            padding: 1.5rem;
-            border-radius: var(--border-radius-sm);
-            margin-bottom: 1.5rem;
-        }
-
-        .filiere-category:last-child {
-            margin-bottom: 0;
-        }
-
-        .filiere-category h4 {
-            color: var(--text-primary);
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        .filiere-category ul {
-            list-style: none;
-            margin: 0;
-            padding-left: 1.25rem;
-        }
-
-        .filiere-category li {
-            position: relative;
-            padding: 0.5rem 0;
-            color: var(--text-secondary);
-        }
-
-        .filiere-category li::before {
-            content: "•";
-            color: var(--primary-light);
-            position: absolute;
-            left: -1.25rem;
-            font-weight: bold;
+        @keyframes slideIn {
+            from {
+                transform: translateX(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
         @media (max-width: 768px) {
@@ -279,88 +350,80 @@
             }
 
             h1 {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
 
-            .speciality-icons {
-                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            .speciality-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             }
 
-            .icon {
-                padding: 1rem;
-            }
-
-            .filiere {
+            .domain-section {
                 padding: 1.5rem;
             }
-        }
-
-        /* Scrollbar styling */
-        .recommendations::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .recommendations::-webkit-scrollbar-track {
-            background: var(--background);
-        }
-
-        .recommendations::-webkit-scrollbar-thumb {
-            background-color: var(--primary-light);
-            border-radius: 20px;
         }
     </style>
 </head>
 <body>
 <div class="container">
     <header>
-        <h1>Orientation Parcoursup</h1>
-        <p>Choisissez vos 3 spécialités pour découvrir les filières correspondantes</p>
+        <h1>🚀 Trouve ta voie</h1>
+        <p>Choisis tes 3 spécialités préférées et découvre les parcours qui te correspondent !</p>
     </header>
-    <main>
-        <div class="speciality-icons">
-            <div class="icon" data-speciality="HLP">
-                <img src="icons/hlp.png" alt="Humanités, Littérature et Philosophie" loading="lazy">
-                <span>HLP</span>
-            </div>
-            <div class="icon" data-speciality="LLCE Anglais">
-                <img src="icons/anglais.png" alt="LLCE Anglais" loading="lazy">
-                <span>LLCE Anglais</span>
-            </div>
-            <div class="icon" data-speciality="LLCE Espagnol">
-                <img src="icons/espagnol.png" alt="LLCE Espagnol" loading="lazy">
-                <span>LLCE Espagnol</span>
-            </div>
-            <div class="icon" data-speciality="HGGSP">
-                <img src="icons/hggsp.png" alt="Histoire-Géographie, Géopolitique et Sciences Politiques" loading="lazy">
-                <span>HGGSP</span>
-            </div>
-            <div class="icon" data-speciality="SES">
-                <img src="icons/ses.png" alt="Sciences Économiques et Sociales" loading="lazy">
-                <span>SES</span>
-            </div>
-            <div class="icon" data-speciality="Mathématiques">
-                <img src="icons/maths.png" alt="Mathématiques" loading="lazy">
-                <span>Mathématiques</span>
-            </div>
-            <div class="icon" data-speciality="Physique-Chimie">
-                <img src="icons/physique.png" alt="Physique-Chimie" loading="lazy">
-                <span>Physique-Chimie</span>
-            </div>
-            <div class="icon" data-speciality="SVT">
-                <img src="icons/svt.png" alt="Sciences de la Vie et de la Terre" loading="lazy">
-                <span>SVT</span>
-            </div>
+
+    <div class="speciality-grid">
+        <div class="speciality-card" data-speciality="HLP">
+            <div class="speciality-icon">📚</div>
+            <div class="speciality-name">HLP</div>
+            <div class="speciality-desc">Humanités, Littérature et Philosophie</div>
         </div>
-        <div class="selected-specialities">
-            <h2>Vos spécialités sélectionnées</h2>
-            <div id="selected-icons"></div>
-            <div id="validation-message"></div>
+        <div class="speciality-card" data-speciality="LLCE Anglais">
+            <div class="speciality-icon">🌍</div>
+            <div class="speciality-name">Anglais</div>
+            <div class="speciality-desc">Langues, Littératures et Cultures Étrangères</div>
         </div>
-        <div id="recommendations" class="recommendations"></div>
-    </main>
+        <div class="speciality-card" data-speciality="LLCE Espagnol">
+            <div class="speciality-icon">🌎</div>
+            <div class="speciality-name">Espagnol</div>
+            <div class="speciality-desc">Langues, Littératures et Cultures Étrangères</div>
+        </div>
+        <div class="speciality-card" data-speciality="HGGSP">
+            <div class="speciality-icon">🌐</div>
+            <div class="speciality-name">HGGSP</div>
+            <div class="speciality-desc">Histoire-Géo, Géopolitique et Sciences Po</div>
+        </div>
+        <div class="speciality-card" data-speciality="SES">
+            <div class="speciality-icon">📊</div>
+            <div class="speciality-name">SES</div>
+            <div class="speciality-desc">Sciences Économiques et Sociales</div>
+        </div>
+        <div class="speciality-card" data-speciality="Mathématiques">
+            <div class="speciality-icon">🔢</div>
+            <div class="speciality-name">Maths</div>
+            <div class="speciality-desc">Mathématiques</div>
+        </div>
+        <div class="speciality-card" data-speciality="Physique-Chimie">
+            <div class="speciality-icon">⚗️</div>
+            <div class="speciality-name">Physique-Chimie</div>
+            <div class="speciality-desc">Sciences de la matière</div>
+        </div>
+        <div class="speciality-card" data-speciality="SVT">
+            <div class="speciality-icon">🧬</div>
+            <div class="speciality-name">SVT</div>
+            <div class="speciality-desc">Sciences de la Vie et de la Terre</div>
+        </div>
+    </div>
+
+    <div class="selected-panel">
+        <div class="selected-title">Tes spécialités choisies</div>
+        <div id="selected-items" class="selected-items"></div>
+        <div id="validation-message"></div>
+    </div>
+
+    <div id="results" class="results"></div>
 </div>
+
 <script>
-    // Configuration des domaines et filières
+    // Configuration
     const CONFIG = {
         validSeries: [
             ['HLP', 'LLCE Anglais', 'HGGSP'],
@@ -384,231 +447,156 @@
             'LLCE Espagnol': ['Littéraire', 'Communication', 'Arts et Culture', 'Gestion et Commerce'],
             'HGGSP': ['Sciences Sociales', 'Littéraire', 'Droit et Sciences Politiques', 'Sciences Humaines']
         },
-        maxSpecialities: 3
-    };
-
-    // État de l'application
-    const state = {
-        selectedSpecialities: new Set()
-    };
-
-    // Gestionnaire d'interface utilisateur
-    const UI = {
-        elements: {
-            icons: document.querySelectorAll('.icon'),
-            selectedIcons: document.getElementById('selected-icons'),
-            recommendations: document.getElementById('recommendations'),
-            validationMessage: document.getElementById('validation-message')
-        },
-
-        init() {
-            this.bindEvents();
-        },
-
-        bindEvents() {
-            this.elements.icons.forEach(icon => {
-                icon.addEventListener('click', () => {
-                    const speciality = icon.dataset.speciality;
-                    if (!icon.classList.contains('disabled')) {
-                        this.toggleSpeciality(icon, speciality);
-                    }
-                });
-            });
-        },
-
-        isValidCombination(specialities) {
-            return CONFIG.validSeries.some(series =>
-                specialities.length === series.length &&
-                specialities.every(spec => series.includes(spec))
-            );
-        },
-
-        updateValidationMessage() {
-            const selectedArray = Array.from(state.selectedSpecialities);
-            if (selectedArray.length === CONFIG.maxSpecialities) {
-                const isValid = this.isValidCombination(selectedArray);
-                this.elements.validationMessage.className = `validation-message ${isValid ? 'success' : 'error'}`;
-                this.elements.validationMessage.textContent = isValid
-                    ? 'Combinaison valide ! Voici les filières recommandées.'
-                    : 'Cette combinaison n\'est pas recommandée pour Parcoursup.';
-            } else {
-                this.elements.validationMessage.className = '';
-                this.elements.validationMessage.textContent = '';
-            }
-        },
-
-        updateAvailableSpecialities() {
-            const selectedArray = Array.from(state.selectedSpecialities);
-
-            if (selectedArray.length < CONFIG.maxSpecialities) {
-                this.elements.icons.forEach(icon => {
-                    const speciality = icon.dataset.speciality;
-                    if (!state.selectedSpecialities.has(speciality)) {
-                        const possibleCombinations = CONFIG.validSeries.filter(series =>
-                            selectedArray.every(selected => series.includes(selected)) &&
-                            series.includes(speciality)
-                        );
-
-                        if (possibleCombinations.length === 0 && selectedArray.length > 0) {
-                            icon.classList.add('disabled');
-                        } else {
-                            icon.classList.remove('disabled');
-                        }
-                    }
-                });
-            }
-        },
-
-        toggleSpeciality(icon, speciality) {
-            if (state.selectedSpecialities.has(speciality)) {
-                state.selectedSpecialities.delete(speciality);
-                icon.classList.remove('selected');
-            } else if (state.selectedSpecialities.size < CONFIG.maxSpecialities) {
-                state.selectedSpecialities.add(speciality);
-                icon.classList.add('selected');
-            }
-
-            this.updateUI();
-        },
-
-        removeSpeciality(speciality) {
-            const icon = document.querySelector(`.icon[data-speciality="${speciality}"]`);
-            if (icon) {
-                this.toggleSpeciality(icon, speciality);
-            }
-        },
-
-        updateUI() {
-            this.updateSelectedIcons();
-            this.updateValidationMessage();
-            this.updateAvailableSpecialities();
-            this.updateRecommendations();
-        },
-
-        updateSelectedIcons() {
-            this.elements.selectedIcons.innerHTML = Array.from(state.selectedSpecialities)
-                .map(spec => `
-                    <div class="selected-speciality">
-                        ${spec}
-                        <div class="remove-icon"
-                             onclick="UI.removeSpeciality('${spec}')"
-                             role="button"
-                             aria-label="Supprimer ${spec}">✖</div>
-                    </div>
-                `).join('');
-        },
-
-        updateRecommendations() {
-            const selectedArray = Array.from(state.selectedSpecialities);
-            if (selectedArray.length === CONFIG.maxSpecialities && this.isValidCombination(selectedArray)) {
-                const recommendations = this.findMatchingFilières(selectedArray);
-                this.renderRecommendations(recommendations);
-            } else {
-                this.elements.recommendations.innerHTML = '';
-            }
-        },
-
-        findMatchingFilières(selectedArray) {
-            const domaines = selectedArray.flatMap(spec => CONFIG.domaineMappings[spec] || []);
-            const uniqueDomaines = [...new Set(domaines)];
-            const recommendations = {};
-
-            uniqueDomaines.forEach(domaine => {
-                if (filieres[domaine]) {
-                    recommendations[domaine] = filieres[domaine];
-                }
-            });
-
-            return recommendations;
-        },
-
-        renderRecommendations(recommendations) {
-            this.elements.recommendations.innerHTML = Object.entries(recommendations)
-                .map(([domaine, categories]) => `
-                        <div class="filiere">
-                            <h3>${domaine}</h3>
-                            ${Object.entries(categories)
-                    .map(([type, options]) => `
-                                    <div class="filiere-category">
-                                        <h4>${type}</h4>
-                                        <ul>
-                                            ${Object.entries(options)
-                        .map(([formation, cursus]) => `
-                                                    <div class="formation">
-                                                        <h5>${formation}</h5>
-                                                        <ul>
-                                                            ${cursus.map(option => `
-                                                                <li>${option}</li>
-                                                            `).join('')}
-                                                        </ul>
-                                                    </div>
-                                                `).join('')}
-                                        </ul>
-                                    </div>
-                                `).join('')}
-                        </div>
-                    `).join('');
+        maxSpecialities: 3,
+        domainIcons: {
+            'Littéraire': '📚',
+            'Sciences Sociales': '🌐',
+            'Sciences': '🔬',
+            'Informatique et Numérique': '💻'
         }
     };
-
-    // Initialisation de l'application
-    document.addEventListener('DOMContentLoaded', () => UI.init());
 
     // Structure des filières
     const filieres = {
         'Littéraire': {
             'Sciences Humaines': {
-                'CPGE': ['Littéraire (A/L)', 'Chartes', 'B/L (Lettres et Sciences Sociales)'],
-                'Licence': [
-                    'Lettres',
-                    'Philosophie',
-                    'Histoire',
-                    'Anthropologie',
-                    'Psychologie',
-                    'Sociologie',
-                    'Sciences du Langage',
-                    'Langues Étrangères Appliquées (LEA)'
+                'CPGE': [
+                    {
+                        name: 'Littéraire (A/L)',
+                        link: 'https://www.onisep.fr/Choisir-mes-etudes/Apres-le-bac/Classes-preparatoires/Litteraire-AL'
+                    },
+                    {name: 'Chartes', link: 'https://www.chartes.psl.eu/'},
+                    {
+                        name: 'B/L (Lettres et Sciences Sociales)',
+                        link: 'https://www.onisep.fr/Choisir-mes-etudes/Apres-le-bac/Classes-preparatoires/BL-Lettres-et-Sciences-sociales'
+                    }
                 ],
-                'Écoles': ['Sciences Po', 'IEP', 'Écoles de traduction']
+                'Licence': [
+                    {
+                        name: 'Lettres',
+                        link: 'https://www.onisep.fr/Ressources/Univers-Formation/Formations/Post-bac/licence-lettres'
+                    },
+                    {
+                        name: 'Philosophie',
+                        link: 'https://www.onisep.fr/Ressources/Univers-Formation/Formations/Post-bac/licence-philosophie'
+                    },
+                    {
+                        name: 'Histoire',
+                        link: 'https://www.onisep.fr/Ressources/Univers-Formation/Formations/Post-bac/licence-histoire'
+                    },
+                    {name: 'Anthropologie', link: 'https://www.onisep.fr/ressources/univers-formation/formations/post-bac/licence-mention-sciences-de-l-homme-anthropologie-ethnologie'},
+                    {
+                        name: 'Psychologie',
+                        link: 'https://www.onisep.fr/ressources/univers-formation/formations/post-bac/licence-mention-psychologie'
+                    },
+                    {
+                        name: 'Sociologie',
+                        link: 'https://www.onisep.fr/Ressources/Univers-Formation/Formations/Post-bac/licence-sociologie'
+                    },
+                    {
+                        name: 'Sciences du Langage',
+                        link: 'https://www.onisep.fr/ressources/univers-formation/formations/post-bac/licence-mention-sciences-du-langage'
+                    },
+                    {
+                        name: 'Langues Étrangères Appliquées (LEA)',
+                        link: 'https://www.onisep.fr/ressources/univers-formation/formations/post-bac/licence-mention-langues-etrangeres-appliquees'
+                    }
+                ],
+                'Écoles': [
+                    {name: 'Sciences Po', link: 'https://www.sciencespo.fr/'},
+                    {name: 'IEP', link: 'https://www.onisep.fr/formation/les-principaux-domaines-de-formation/les-iep-instituts-d-etudes-politiques'},
+                    {name: 'Écoles de traduction', link: 'https://www.isit-paris.fr/'}
+                ]
             },
             'Arts et Culture': {
                 'Licence': [
-                    'Histoire de l\'art',
-                    'Cinéma',
-                    'Théâtre',
-                    'Musicologie',
-                    'Arts Plastiques',
-                    'Design',
-                    'Architecture'
+                    {
+                        name: 'Histoire de l\'art',
+                        link: 'https://www.onisep.fr/Ressources/Univers-Formation/Formations/Post-bac/licence-histoire-de-l-art'
+                    },
+                    {
+                        name: 'Cinéma',
+                        link: 'https://www.onisep.fr/Ressources/Univers-Formation/Formations/Post-bac/licence-cinema'
+                    },
+                    {
+                        name: 'Théâtre',
+                        link: 'https://www.onisep.fr/Ressources/Univers-Formation/Formations/Post-bac/licence-arts-du-spectacle'
+                    },
+                    {
+                        name: 'Musicologie',
+                        link: 'https://www.onisep.fr/Ressources/Univers-Formation/Formations/Post-bac/licence-musicologie'
+                    },
+                    {
+                        name: 'Arts Plastiques',
+                        link: 'https://www.onisep.fr/Ressources/Univers-Formation/Formations/Post-bac/licence-arts-plastiques'
+                    },
+                    {
+                        name: 'Design',
+                        link: 'https://www.onisep.fr/ressources/univers-formation/formations/post-bac/licence-pro-mention-metiers-du-design'
+                    },
+                    {name: 'Architecture', link: 'https://www.onisep.fr/ressources/univers-formation/formations/post-bac/diplome-d-etudes-en-architecture'}
                 ],
                 'BTS': [
-                    'Métiers de l\'audiovisuel',
-                    'Design Graphique',
-                    'Photographie',
-                    'Communication Visuelle'
+                    {
+                        name: 'Métiers de l\'audiovisuel',
+                        link: 'https://www.onisep.fr/formation/les-principaux-domaines-de-formation/les-ecoles-d-audiovisuel'
+                    },
+                    {
+                        name: 'Design Graphique',
+                        link: 'https://www.onisep.fr/Ressources/Univers-Formation/Formations/Post-bac/bts-design-graphique'
+                    },
+                    {
+                        name: 'Photographie',
+                        link: 'https://www.onisep.fr/Ressources/Univers-Formation/Formations/Post-bac/bts-photographie'
+                    },
+                    {
+                        name: 'Communication Visuelle',
+                        link: 'https://www.onisep.fr/Ressources/Univers-Formation/Formations/Post-bac/bts-communication-visuelle'
+                    }
                 ],
                 'Écoles': [
-                    'Écoles d\'Art',
-                    'Écoles de Design',
-                    'Écoles d\'Architecture'
+                    {name: 'Écoles d\'Art', link: 'https://www.onisep.fr/Choisir-mes-etudes/Apres-le-bac/Ecoles-d-art'},
+                    {name: 'Écoles de Design', link: 'https://www.ensci.com/'},
+                    {
+                        name: 'Écoles d\'Architecture',
+                        link: 'https://www.architectes.org/formations/ecoles-nationales-superieures-d-architecture-ensa'
+                    }
                 ]
             },
             'Communication': {
                 'BUT': [
-                    'Info-Com',
-                    'MMI',
-                    'Techniques de Commercialisation'
+                    {
+                        name: 'Info-Com',
+                        link: 'https://www.onisep.fr/Ressources/Univers-Formation/Formations/Post-bac/but-information-communication'
+                    },
+                    {
+                        name: 'MMI',
+                        link: 'https://www.onisep.fr/Ressources/Univers-Formation/Formations/Post-bac/but-metiers-du-multimedia-et-de-l-internet-mmi'
+                    },
+                    {
+                        name: 'Techniques de Commercialisation',
+                        link: 'https://www.onisep.fr/Ressources/Univers-Formation/Formations/Post-bac/but-techniques-de-commercialisation'
+                    }
                 ],
                 'Licence': [
-                    'Information-Communication',
-                    'Publicité',
-                    'Sciences des Médias',
-                    'Journalisme',
-                    'Communication Digitale'
+                    {
+                        name: 'Information-Communication',
+                        link: 'https://www.onisep.fr/Ressources/Univers-Formation/Formations/Post-bac/licence-information-communication'
+                    },
+                    {name: 'Publicité', link: 'https://www.iscom.fr/'},
+                    {
+                        name: 'Sciences des Médias',
+                        link: 'https://www.onisep.fr/Ressources/Univers-Formation/Formations/Post-bac/licence-sciences-de-l-information-et-de-la-communication'
+                    },
+                    {name: 'Journalisme', link: 'https://www.celsa.fr/'},
+                    {name: 'Communication Digitale', link: 'https://www.supdepub.com/'}
                 ],
                 'Écoles': [
-                    'Écoles de Journalisme',
-                    'Écoles de Communication'
+                    {
+                        name: 'Écoles de Journalisme',
+                        link: 'https://www.onisep.fr/Choisir-mes-etudes/Apres-le-bac/Les-ecoles-de-journalisme'
+                    },
+                    {name: 'Écoles de Communication', link: 'https://www.supdepub.com/'}
                 ]
             }
         },
@@ -770,6 +758,174 @@
             }
         }
     };
+
+    class UI {
+        constructor() {
+            this.elements = {
+                cards: document.querySelectorAll('.speciality-card'),
+                selectedItems: document.getElementById('selected-items'),
+                results: document.getElementById('results'),
+                validationMessage: document.getElementById('validation-message')
+            };
+            this.selectedSpecialities = new Set();
+        }
+
+        init() {
+            this.bindEvents();
+        }
+
+        bindEvents() {
+            this.elements.cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const speciality = card.dataset.speciality;
+                    if (!card.classList.contains('disabled')) {
+                        this.toggleSpeciality(card, speciality);
+                    }
+                });
+            });
+        }
+
+        toggleSpeciality(card, speciality) {
+            if (this.selectedSpecialities.has(speciality)) {
+                this.selectedSpecialities.delete(speciality);
+                card.classList.remove('selected');
+            } else if (this.selectedSpecialities.size < CONFIG.maxSpecialities) {
+                this.selectedSpecialities.add(speciality);
+                card.classList.add('selected');
+            }
+
+            this.updateUI();
+        }
+
+        updateUI() {
+            this.updateSelectedItems();
+            this.updateValidationMessage();
+            this.updateAvailableSpecialities();
+            this.updateResults();
+        }
+
+        updateSelectedItems() {
+            this.elements.selectedItems.innerHTML = Array.from(this.selectedSpecialities)
+                .map(spec => `
+                        <div class="selected-tag">
+                            ${spec}
+                            <button class="remove-btn"
+                                    onclick="ui.removeSpeciality('${spec}')"
+                                    aria-label="Supprimer ${spec}">×</button>
+                        </div>
+                    `).join('');
+        }
+
+        removeSpeciality(speciality) {
+            const card = document.querySelector(`.speciality-card[data-speciality="${speciality}"]`);
+            if (card) {
+                this.toggleSpeciality(card, speciality);
+            }
+        }
+
+        isValidCombination(specialities) {
+            return CONFIG.validSeries.some(series =>
+                specialities.length === series.length &&
+                specialities.every(spec => series.includes(spec))
+            );
+        }
+
+        updateValidationMessage() {
+            const selectedArray = Array.from(this.selectedSpecialities);
+            if (selectedArray.length === CONFIG.maxSpecialities) {
+                const isValid = this.isValidCombination(selectedArray);
+                this.elements.validationMessage.className = `validation-message ${isValid ? 'success' : 'error'}`;
+                this.elements.validationMessage.innerHTML = isValid
+                    ? '<div class="emoji-icon">🎉</div>Super combo ! Voici les parcours faits pour toi.'
+                    : '<div class="emoji-icon">🤔</div>Cette combinaison n\'est pas recommandée pour Parcoursup.';
+            } else {
+                this.elements.validationMessage.className = '';
+                this.elements.validationMessage.textContent = '';
+            }
+        }
+
+        updateAvailableSpecialities() {
+            const selectedArray = Array.from(this.selectedSpecialities);
+
+            if (selectedArray.length < CONFIG.maxSpecialities) {
+                this.elements.cards.forEach(card => {
+                    const speciality = card.dataset.speciality;
+                    if (!this.selectedSpecialities.has(speciality)) {
+                        const possibleCombinations = CONFIG.validSeries.filter(series =>
+                            selectedArray.every(selected => series.includes(selected)) &&
+                            series.includes(speciality)
+                        );
+
+                        if (possibleCombinations.length === 0 && selectedArray.length > 0) {
+                            card.classList.add('disabled');
+                        } else {
+                            card.classList.remove('disabled');
+                        }
+                    }
+                });
+            }
+        }
+
+        findMatchingFilières(selectedArray) {
+            const domaines = selectedArray.flatMap(spec => CONFIG.domaineMappings[spec] || []);
+            const uniqueDomaines = [...new Set(domaines)];
+            const recommendations = {};
+
+            uniqueDomaines.forEach(domaine => {
+                if (filieres[domaine]) {
+                    recommendations[domaine] = filieres[domaine];
+                }
+            });
+
+            return recommendations;
+        }
+
+        updateResults() {
+            const selectedArray = Array.from(this.selectedSpecialities);
+            if (selectedArray.length === CONFIG.maxSpecialities && this.isValidCombination(selectedArray)) {
+                const recommendations = this.findMatchingFilières(selectedArray);
+                this.renderRecommendations(recommendations);
+            } else {
+                this.elements.results.innerHTML = '';
+            }
+        }
+
+        renderRecommendations(recommendations) {
+            this.elements.results.innerHTML = Object.entries(recommendations)
+                .map(([domaine, categories]) => `
+                <div class="domain-section">
+                    <h3 class="domain-title">
+                        ${CONFIG.domainIcons[domaine] || '🎯'} ${domaine}
+                    </h3>
+                    ${Object.entries(categories)
+                    .map(([category, types]) => `
+                            <div class="category">
+                                <h4 class="category-title">${category}</h4>
+                                ${Object.entries(types)
+                        .map(([type, formations]) => `
+                                        <div class="formation-group">
+                                            <h5 class="formation-type">${type}</h5>
+                                            <ul class="formation-list">
+                                                ${formations.map(formation => `
+                                                    <li class="formation-item">
+                                                        ${formation.link
+                            ? `<a href="${formation.link}" target="_blank" rel="noopener noreferrer">${formation.name}</a>`
+                            : formation.name || formation}
+                                                    </li>
+                                                `).join('')}
+                                            </ul>
+                                        </div>
+                                    `).join('')}
+                            </div>
+                        `).join('')}
+                </div>
+            `).join('');
+        }
+    }
+
+    // Initialisation
+    window.ui = new UI();
+    document.addEventListener('DOMContentLoaded', () => window.ui.init());
 </script>
 </body>
 </html>
